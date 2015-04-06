@@ -30,6 +30,8 @@ public class Demultiplexer implements CompletionHandler<Integer, ByteBuffer> {
             String header = new String(buffer.array());
 
             NioEventHandler handler = handleMap.get(header);
+            System.out.println("Working on : " + Thread.currentThread().getName() + " [" + header + "]");
+
 
             ByteBuffer newBuffer = ByteBuffer.allocate(handler.getDataSize());
 
