@@ -1,0 +1,12 @@
+extends layout
+
+block content
+	h1= title
+	.container
+		p author : #{item.author}
+		p memo : #{item.memo}
+		.row
+			each val in item.image
+				img.img-responsive(src=val style='display: inline-block; max-width: 500px;')
+	a.btn.btn-block.btn-primary(href='/memo' style='margin-top:30px;')
+		| List

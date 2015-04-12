@@ -1,0 +1,16 @@
+extends layout
+
+block content
+	h1= title
+	.container
+		div.newmemo
+			form(name="upload", action="/memo/new/upload", method="post" enctype="multipart/form-data")
+				h4 author
+				input.form-control(type="text", name="author")
+				h4 memo
+				input.form-control(type="text", name="memo")
+				h4 file
+				input(type="file", name="image" multiple)
+				h4 -------------------------
+				button.btn.btn-primary.btn-large(type="submit")
+					| submit

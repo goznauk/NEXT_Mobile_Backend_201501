@@ -11,7 +11,6 @@ var memo = require('./routes/memo');
 
 var app = express();
 
-console.log('Port? : ' + app.get('port'));
 
 // set port num
 app.listen(8808, function() {
@@ -28,7 +27,14 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/images',express.static(path.join(__dirname, 'public/images')));
+app.use('/js',express.static(path.join(__dirname, 'public/javascripts')));
+app.use('/css',express.static(path.join(__dirname, 'public/stylesheets')));
+app.use('/data',express.static(path.join(__dirname, 'public/data')));
+app.use('/bootstrap',express.static(path.join(__dirname, 'public/bootstrap')));
+
 
 app.use('/', routes);
 app.use('/users', users);
