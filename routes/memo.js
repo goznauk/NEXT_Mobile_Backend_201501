@@ -53,23 +53,31 @@ router.post('/new/upload', function(req, res) {
 
   form.parse(req, function(err, fields, files) {
     console.log('parse - ' + JSON.stringify(files));
-    res.writeHead(200, {'content-type': 'text/plain'});
+ //   res.writeHead(200, {'content-type': 'text/plain'});
 
 		var resultObj = {
 			result: 'ok',
 			added: []
 		}
 
-		files.image.forEach(function(i) {
-			resultObj.added.push({
-				size: i.size,
-				path: i.path,
-				name: i.name,
-				type: i.type
+		if(files.image.length > 1) {
+			files.image.forEach(function(i) {
+				resultObj.added.push({
+					size: i.size,
+					path: i.path,
+					name: i.name,
+					type: i.type
+				});
 			});
-		});
-
-		res.end(JSON.stringify(resultObj));
+		} else {
+			resultObj.added.push({
+				size: files.image.size,
+				path: files.image.path,
+				name: files.image.name,
+				type: files.image.type
+			});
+		}
+//	console.log(JSON.stringify(resultObj));
 
 		console.log("Upload completed" );
 		console.log(fields);
@@ -82,17 +90,27 @@ router.post('/new/upload', function(req, res) {
 			date: new Date()
 		}
 		
-		files.image.forEach(function(i) {
-			var elem = i.path.split("/");
+		if(files.image.length > 1) {
+			files.image.forEach(function(i) {
+				var elem = i.path.split("/");
+				var str = "";
+				for (var i = 0; i < elem.length; i++)
+					str = elem[i];
+				resultMemo.image.push("/images/uploaded/"+str);
+			});
+		} else {
+			var elem = files.image.path.split("/");
 			var str = "";
 			for (var i = 0; i < elem.length; i++)
 				str = elem[i];
 			resultMemo.image.push("/images/uploaded/"+str);
-		});
+		}
+
 
 		memo.newMemo(resultMemo);
 
-		console.log(resultMemo);
+		console.log('dd' + resultMemo);
+		res.redirect('/memo')
   });
 });
 
